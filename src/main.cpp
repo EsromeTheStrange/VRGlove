@@ -3,6 +3,7 @@
 #include <NimBLEDevice.h>
 
 #define GLOVE_NAME "VR Glove"
+#define GLOVE_MANUFACTURER "Caleb, Maika"
 
 #define SERVICE_UUID_DEVICE_INFORMATION        "180A"      // Service - Device information
 
@@ -14,73 +15,74 @@
 
 #define MODEL_NUMBER "1.0.0"
 #define SOFTWARE_REVISION "1.0.0"
-#define SERIAL_NUMBER "0123456789"
-#define FIRMWARE_REVISION "0.6.3"
+#define FIRMWARE_REVISION "1.0.0"
 #define HARDWARE_REVISION "1.0.0"
+#define SERIAL_NUMBER "0123456789"
 
 NimBLEHIDDevice *glove;
 
 void setup() {
-    Serial.begin(115200);
-    Serial.println("VR Glove Initializing...");
+  Serial.begin(115200);
+  Serial.println("VR Glove Initializing...");
 
-    NimBLEDevice::init(GLOVE_NAME);
-    NimBLEServer *pServer = NimBLEDevice::createServer();
-    //pServer->setCallbacks
+  NimBLEDevice::init(GLOVE_NAME);
+  NimBLEServer *pServer = NimBLEDevice::createServer();
+  //pServer->setCallbacks()
 
-    //Get Input Report
+  //Get Input Report
 
-    //Get Output Report
+  //Get Output Report
 
-    //Custom HID Report Stuff Here
+  //Custom HID Report Stuff Here
 
-    glove = new NimBLEHIDDevice(pServer);
-    glove->setManufacturer("Caleb, Maika");
+  glove = new NimBLEHIDDevice(pServer);
+  glove->setManufacturer(GLOVE_MANUFACTURER);
 
-    NimBLEService *pService = pServer->getServiceByUUID(SERVICE_UUID_DEVICE_INFORMATION);
+  NimBLEService *pService = pServer->getServiceByUUID(SERVICE_UUID_DEVICE_INFORMATION);
 
-	BLECharacteristic* pCharacteristic_Model_Number = pService->createCharacteristic(
-      CHARACTERISTIC_UUID_MODEL_NUMBER,
-      NIMBLE_PROPERTY::READ
-    );
-    pCharacteristic_Model_Number->setValue(MODEL_NUMBER);
+  NimBLECharacteristic* pCharacteristic_Model_Number = pService->createCharacteristic(
+    CHARACTERISTIC_UUID_MODEL_NUMBER,
+    NIMBLE_PROPERTY::READ
+  );
+  pCharacteristic_Model_Number->setValue(MODEL_NUMBER);
 
-    BLECharacteristic* pCharacteristic_Software_Revision = pService->createCharacteristic(
-      CHARACTERISTIC_UUID_SOFTWARE_REVISION,
-      NIMBLE_PROPERTY::READ
-    );
-    pCharacteristic_Software_Revision->setValue(SOFTWARE_REVISION);
+  NimBLECharacteristic* pCharacteristic_Software_Revision = pService->createCharacteristic(
+    CHARACTERISTIC_UUID_SOFTWARE_REVISION,
+    NIMBLE_PROPERTY::READ
+  );
+  pCharacteristic_Software_Revision->setValue(SOFTWARE_REVISION);
 
-    BLECharacteristic* pCharacteristic_Serial_Number = pService->createCharacteristic(
-      CHARACTERISTIC_UUID_SERIAL_NUMBER,
-      NIMBLE_PROPERTY::READ
-    );
-    pCharacteristic_Serial_Number->setValue(SERIAL_NUMBER);
-	
-	BLECharacteristic* pCharacteristic_Firmware_Revision = pService->createCharacteristic(
-      CHARACTERISTIC_UUID_FIRMWARE_REVISION,
-      NIMBLE_PROPERTY::READ
-    );
-    pCharacteristic_Firmware_Revision->setValue(FIRMWARE_REVISION);
-	
-	BLECharacteristic* pCharacteristic_Hardware_Revision = pService->createCharacteristic(
-      CHARACTERISTIC_UUID_HARDWARE_REVISION,
-      NIMBLE_PROPERTY::READ
-    );
-    pCharacteristic_Hardware_Revision->setValue(HARDWARE_REVISION);
+  NimBLECharacteristic* pCharacteristic_Serial_Number = pService->createCharacteristic(
+    CHARACTERISTIC_UUID_SERIAL_NUMBER,
+    NIMBLE_PROPERTY::READ
+  );
+  pCharacteristic_Serial_Number->setValue(SERIAL_NUMBER);
 
-    glove->setHidInfo(0x00, 0x01);
-    //glove->setPnp
+  NimBLECharacteristic* pCharacteristic_Firmware_Revision = pService->createCharacteristic(
+    CHARACTERISTIC_UUID_FIRMWARE_REVISION,
+    NIMBLE_PROPERTY::READ
+  );
+  pCharacteristic_Firmware_Revision->setValue(FIRMWARE_REVISION);
 
-    NimBLEDevice::setSecurityAuth(true, false, false);
+  NimBLECharacteristic* pCharacteristic_Hardware_Revision = pService->createCharacteristic(
+    CHARACTERISTIC_UUID_HARDWARE_REVISION,
+    NIMBLE_PROPERTY::READ
+  );
+  pCharacteristic_Hardware_Revision->setValue(HARDWARE_REVISION);
 
-    glove->startServices();
-    
-    NimBLEAdvertising *pAdvertising = pServer->getAdvertising();
-    pAdvertising->setAppearance(HID_GAMEPAD);
-    pAdvertising->setName(GLOVE_NAME);
-    pAdvertising->addServiceUUID(glove->getHidService()->getUUID());
-    pAdvertising->start();
+  glove->setHidInfo(0x00, 0x01);
+  //glove->setPnp
+
+  NimBLEDevice::setSecurityAuth(true, false, false);
+
+  glove->startServices();
+  
+  NimBLEAdvertising *pAdvertising = pServer->getAdvertising();
+  pAdvertising->setAppearance(HID_GAMEPAD);
+  pAdvertising->setName(GLOVE_NAME);
+  pAdvertising->addServiceUUID(glove->getHidService()->getUUID());
+  pAdvertising->enableScanResponse(true);
+  pAdvertising->start();
 }
 
 void loop() {

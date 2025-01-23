@@ -1,0 +1,11 @@
+[[settings]]
+generateCpp = true
+
+[[applicationCollection]]
+usage = ['Generic Desktop', 'Joystick']
+
+    [[applicationCollection.inputReport]]
+
+        [[applicationCollection.inputReport.variableItem]]
+        usage = ['Generic Desktop', 'Hat Switch']
+        logicalValueRange = [0, 3]

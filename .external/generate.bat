@@ -1,0 +1,1 @@
+WaratahCmd.exe -s .\vrglove.wara -d out
