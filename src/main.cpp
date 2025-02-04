@@ -3,14 +3,24 @@
 
 BleGamepad gamepad("HID Glove", "Caleb, Maika", 100);
 
+#define HALL_PIN 14
+
 void setup() {
     Serial.begin(115200);
     Serial.println("Starting BLE work!");
     gamepad.begin();
+
+    pinMode(HALL_PIN, INPUT);
 }
 
 void loop() {
-  if (gamepad.isConnected())
+    float hallValue = analogRead(HALL_PIN);
+    Serial.println(hallValue);
+    delay(100);
+    if(gamepad.isConnected()){
+        
+    }
+    /*if (gamepad.isConnected())
     {
         Serial.println("Press buttons 5, 16 and start. Move all enabled axes to max. Set DPAD (hat 1) to down right.");
         gamepad.press(BUTTON_5);
@@ -27,5 +37,5 @@ void loop() {
         gamepad.setHat1(HAT_CENTERED);
         gamepad.setAxes(0, 0, 0, 0, 0, 0, 0, 0);
         delay(500);
-    }
+    }*/
 }
