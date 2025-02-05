@@ -1,4 +1,4 @@
-#include "device_info.h"
+#include "vr_glove_device_info.h"
 
 void SetDeviceInfo(NimBLEServer *pServer){
     NimBLEService *pService = pServer->getServiceByUUID(SERVICE_UUID_DEVICE_INFORMATION);
