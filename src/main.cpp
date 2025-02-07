@@ -9,7 +9,7 @@ VRGloveDevice *glove;
 
 void setup() {
     Serial.begin(115200);
-    Serial.println("VR Glove Initializing...");
+    VRGloveLogger::Log("Initializing...");
 
     glove = new VRGloveDevice(GLOVE_NAME, GLOVE_MANUFACTURER);
 }

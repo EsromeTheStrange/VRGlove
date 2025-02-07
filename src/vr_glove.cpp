@@ -5,7 +5,7 @@ NimBLEHIDDevice* pHidDevice;
 
 VRGloveDevice::VRGloveDevice(std::string _gloveName, std::string _gloveManufacturer) : gloveName(_gloveName), gloveManufacturer(_gloveManufacturer) {
     pInstance = this;
-    xTaskCreate(this->taskCreateServer, "server", 20000, (void *)this, 1, NULL);
+    xTaskCreate(this->taskCreateServer, "VRGlove Bluetooth Server", 20000, (void *)this, 1, NULL);
 }
 
 void VRGloveDevice::taskCreateServer(void* pvParameter){
@@ -38,4 +38,7 @@ void VRGloveDevice::taskCreateServer(void* pvParameter){
     pAdvertising->addServiceUUID(pHidDevice->getHidService()->getUUID());
     pAdvertising->enableScanResponse(true);
     pAdvertising->start();
+
+    VRGloveLogger::Log("Bluetooth Advertising Started");
+    vTaskDelay(portMAX_DELAY);
 }

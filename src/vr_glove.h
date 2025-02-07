@@ -3,6 +3,7 @@
 #include <string>
 
 #include "vr_glove_device_info.h"
+#include "vr_glove_logger.h"
 
 class VRGloveDevice {
 private:
