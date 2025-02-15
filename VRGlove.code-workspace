@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"semphr.h": "c",
+			"task.h": "c",
+			"string": "cpp",
+			"new": "cpp"
+		}
+	}
+}
